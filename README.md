@@ -1,4 +1,4 @@
-## Freeing The Forst - Treap RPG Game
+## Freeing The Forest - an RPG Game
 ## Description
 This game takes the formula of rock-paper-scissors and expands it into an RPG-style game. Users navigate around the map, collecting powerups to aid them in enemy combat while avoiding environmental hazards. Users engage in combat with enemies, as battles become progressively more difficult with each encounter. Goal is to defeat all enemies to win.
 

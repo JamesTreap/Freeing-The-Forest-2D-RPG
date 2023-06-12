@@ -1,4 +1,4 @@
-## Freeing The Forest - an RPG Game
+## Freeing The Forst - Treap RPG Game
 ## Description
 This game takes the formula of rock-paper-scissors and expands it into an RPG-style game. Users navigate around the map, collecting powerups to aid them in enemy combat while avoiding environmental hazards. Users engage in combat with enemies, as battles become progressively more difficult with each encounter. Goal is to defeat all enemies to win.
 
@@ -6,10 +6,12 @@ This game takes the formula of rock-paper-scissors and expands it into an RPG-st
 * Fully animated characters, overworld, powerups, battle scenes, and death sequences
 * Multiple enemy types and enemy levels
 * Modular components for strong encapsulation (private fields, classes communicate via function calls)
-* Initialization classes promoting code reusability (hoverButton & player)
+* Initialization classes promoting code reusability (hoverButton, player, audioPlayer)
 * MVC (Model-View-Controller) design pattern
+* Custom music for various gamestates
+* Dynamic code allowing for the adjustment
 
-Customizable maps - to edit the map, edit the file in 'map1.csv', using the guide below
+Customizable maps - to edit the map, edit the file in 'map1.csv', using the guide below.<br>
 Guide:
 > Characters
 * 'p' spawns the player (by default, player is spawned at 1, 1 if no coordinates are specified)
@@ -60,13 +62,11 @@ This project is split into the following directories:
 /target -> directory where executable is built and where assets are stored
 
 ## Planned future features
-* Adding music that changes between screens
 * Adding map selector screen when creating a new game
-* Rework board display to use variables rather than hardcoded constants
 * Custom player classes with different stat distributions (requires significant amount of spritework)
 
 ## Authors & Acknowledgements
-Programming: James Treap.
+Programming: James Treap.<br>
 Image/asset/music contributions from the following royalty-free sources:
 * Skeleton and Archer characters by [AstroBob](https://astrobob.itch.io/) on Itch.io
 * Chest spritesheet by [Admurin](https://admurin.itch.io/free-chest-animations) on Itch.io

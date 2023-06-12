@@ -8,15 +8,6 @@ import java.awt.event.ActionEvent;      // for updating the screen at a dedicate
 import java.awt.event.ActionListener;   // for updating the screen at a dedicated framerame
 import java.lang.Math;
 
-// Import a bunch-o-libraries for playing audio!
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class gameBoard extends JPanel implements ActionListener {
     //  constants for initiatlizing the board
     private final int BOARDWIDTH = 20;
@@ -29,6 +20,8 @@ public class gameBoard extends JPanel implements ActionListener {
     private final int startingHP = 20;
     private final int startingATK = 5;
     private final int startingDEF = 5;
+    private final int BOSSLEVEL = 20;
+    private final audioPlayer theAudio = new audioPlayer();
 
     // constants for player direction
     private final char UP = 'n';
@@ -42,6 +35,19 @@ public class gameBoard extends JPanel implements ActionListener {
     private final int DEATHFRAMES = 15;             // number of frames for death animation
     private final int FRAMESPERSECOND = 50;         // FPS = 1000 / FRAMESPERSECOND, e.g 50ms = 20fps
 
+    // constants for the various tiles on the board
+    private final char BOARD_GRASS = 'g';
+    private final char BOARD_WATER = 'w';
+    private final char BOARD_TREE = 't';
+    private final char BOARD_FLOWER = 'f';
+    private final char BOARD_SHIELD = 'd';
+    private final char BOARD_SWORD = 's';
+    private final char BOARD_ROCK = 'r';
+    private final char ENEMY_WEAK = '1';
+    private final char ENEMY_STRONG = '9';
+    private final char BOARD_BOSS = 'b';
+    private final char BOARD_PLAYER = 'p';
+
     // mutatable variables
     private int splashcounter = 0;                  // for the splash animation
     private int deathcounter = 0;                   // for the death animation
@@ -51,7 +57,6 @@ public class gameBoard extends JPanel implements ActionListener {
 
     private char[][] boardTiles = new char[BOARDWIDTH][BOARDHEIGHT];  // access tiles via boardTiles[X-coord][Y-coord] 
     private String mapFile = "./map1.csv";                            // represents the map file
-    private String overworldTheme = "./music/overworld_theme.wav";    // music theme
     private String enemyLevel = "?";                                  // make this a string so I can display '??' during bossfight
 
     private Timer timer;                            // for updating the console 20 times a second
@@ -112,25 +117,6 @@ public class gameBoard extends JPanel implements ActionListener {
         buffButton.addActionListener(doABuff);
         timer = new Timer(FRAMESPERSECOND, this);
         timer.start();
-
-        try {
-            File audioFile = new File(overworldTheme);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            AudioFormat format = audioStream.getFormat();   
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-            Clip audioClip = (Clip) AudioSystem.getLine(info);
-            audioClip.open(audioStream);
-            audioClip.start();
-        } catch (UnsupportedAudioFileException ex) {
-            System.out.println("The specified audio file is not supported.");
-            ex.printStackTrace();
-        } catch (LineUnavailableException ex) {
-            System.out.println("Audio line for playing back is unavailable.");
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            System.out.println("Error playing the audio file.");
-            ex.printStackTrace();
-        }
     }
 
     // updates the game at a dedicated FPS rate - 20fps for screens, 5fps for board and combat
@@ -234,27 +220,27 @@ public class gameBoard extends JPanel implements ActionListener {
     private void drawBoard(Graphics g) {
         for (int i = 0; i < BOARDWIDTH; i++) {
             for (int j = 0; j < BOARDHEIGHT; j++) {
-                if (boardTiles[i][j] == 'g') {
+                if (boardTiles[i][j] == BOARD_GRASS) {
                     g.drawImage(grass, i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 't') {
+                } else if (boardTiles[i][j] == BOARD_TREE) {
                     g.drawImage(tree, i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 'w') {
+                } else if (boardTiles[i][j] == BOARD_WATER) {
                     g.drawImage(water[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 'f') {
+                } else if (boardTiles[i][j] == BOARD_FLOWER) {
                     g.drawImage(flower[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 'r') {
+                } else if (boardTiles[i][j] == BOARD_ROCK) {
                     g.drawImage(stone[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 's' || boardTiles[i][j] == 'd') {
+                } else if (boardTiles[i][j] == BOARD_SWORD || boardTiles[i][j] == BOARD_SHIELD) {
                     g.drawImage(chest[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] >= '1' && boardTiles[i][j] <= '9') {
+                } else if (boardTiles[i][j] >= ENEMY_WEAK && boardTiles[i][j] <= ENEMY_STRONG) {
                     g.drawImage(enemy[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
-                } else if (boardTiles[i][j] == 'b') {
+                } else if (boardTiles[i][j] == BOARD_BOSS) {
                     g.drawImage(boss[frameNumber], i * TILEPIXELSIZE, j * TILEPIXELSIZE, this);
                 }
             }
         }
 
-        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 'r') {    // if they are on a rock tile
+        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_ROCK) {    // if they are on a rock tile
             if (thePlayer.getDir() == UP) {
                 g.drawImage(playerWaterUp[frameNumber], thePlayer.getX() * TILEPIXELSIZE, thePlayer.getY() * TILEPIXELSIZE, this);
             } else if (thePlayer.getDir() == DOWN) {
@@ -331,6 +317,7 @@ public class gameBoard extends JPanel implements ActionListener {
                     gamestate = menuState.PLAY;
                     playerState = battleState.CHOOSE;
                     numEnemies--;
+                    theAudio.playOverworldTheme();
                     checkAllEnemiesDead();
                 }
             }
@@ -428,6 +415,7 @@ public class gameBoard extends JPanel implements ActionListener {
         gamestate = menuState.PLAY;
         splashcounter = 0;
         deathcounter = 0;
+        theAudio.playOverworldTheme();
     }
 
     // sets the gamestate to instruction mode
@@ -437,6 +425,9 @@ public class gameBoard extends JPanel implements ActionListener {
 
     // returns the user to the main menu
     public void goMenu() {
+        if (gamestate != menuState.INSTRUCT) {
+            theAudio.playMenuTheme();
+        }
         gamestate = menuState.TITLE;
     }
 
@@ -444,7 +435,8 @@ public class gameBoard extends JPanel implements ActionListener {
     private void prepCombat() {
         gamestate = menuState.COMBAT;
         thePlayer.resetBUFF();
-        boardTiles[thePlayer.getX()][thePlayer.getY()] = 'g';
+        boardTiles[thePlayer.getX()][thePlayer.getY()] = BOARD_GRASS;
+        theAudio.playBattleTheme();
     }
 
     // MOVEMENT METHODS --------------------------------------------------------------------
@@ -493,13 +485,17 @@ public class gameBoard extends JPanel implements ActionListener {
         if (splashcounter == SPLASHFRAMES - 1) {
             gamestate = menuState.DROWNED_DONE;
             menuButton.setVisible(true);
-        } else if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 'w') {
+        } else if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_WATER) {
             gamestate = menuState.DROWNED;
+        }
+
+        if (splashcounter == 1) {
+            theAudio.playDrownTheme();
         }
     }
 
     // determines if a player was killed by an enemy
-    private void checkDied() {
+    private void checkDied() {        
         if (deathcounter == DEATHFRAMES - 1) {
             gamestate = menuState.DEAD_DONE;
             menuButton.setVisible(true);
@@ -507,13 +503,17 @@ public class gameBoard extends JPanel implements ActionListener {
             gamestate = menuState.DEAD;
             playerState = battleState.CHOOSE;
         }
+
+        if (deathcounter == 1) {
+            theAudio.playDeathTheme();
+        }
     }
 
     // determines if a player attempts to stand on an invalid tile (i.e a tree)
     private boolean invalidTile(int X, int Y) {
         if (X < 0 || Y < 0 || X == BOARDWIDTH || Y == BOARDHEIGHT) {
             return true;
-        } else if (boardTiles[X][Y] == 't') {
+        } else if (boardTiles[X][Y] == BOARD_TREE) {
             return true;
         }
         return false;
@@ -521,18 +521,17 @@ public class gameBoard extends JPanel implements ActionListener {
 
     // determines if a player is in combat, if so, generates an enemy for them
     private void inCombat() {
-        if (boardTiles[thePlayer.getX()][thePlayer.getY()] >= '1' && 
-             boardTiles[thePlayer.getX()][thePlayer.getY()] <= '9') {
+        if (boardTiles[thePlayer.getX()][thePlayer.getY()] >= ENEMY_WEAK && 
+             boardTiles[thePlayer.getX()][thePlayer.getY()] <= ENEMY_STRONG) {
                 int enemyLvl = boardTiles[thePlayer.getX()][thePlayer.getY()] - '0';
                 theEnemy = new player(0, 0, enemyLvl * 5, enemyLvl, enemyLvl, "enemy");
                 enemyLevel = String.valueOf(enemyLvl);
                 prepCombat();
 
-        } else if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 'b') {
-                int enemyLvl = 20;
-                theEnemy = new player(0, 0, enemyLvl * 5, enemyLvl - 5, enemyLvl, "boss");  // attack nerf, bit too strong
+        } else if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_BOSS) {
+                theEnemy = new player(0, 0, BOSSLEVEL * 5, BOSSLEVEL - 5, BOSSLEVEL, "boss");  // attack nerf, bit too strong
                 enemyLevel = "?";
-                theEnemy.setOffset(-55);
+                theEnemy.setOffset(-55);                                                // due to their bow, needs to be offset by 55 pixels
                 prepCombat();
         }
     }
@@ -571,6 +570,7 @@ public class gameBoard extends JPanel implements ActionListener {
     private void checkAllEnemiesDead() {
         if (numEnemies <= 0) {
             gamestate = menuState.VICTORY;
+            theAudio.playVictoryTheme();
             menuButton.setVisible(true);
             return;
         }
@@ -579,22 +579,22 @@ public class gameBoard extends JPanel implements ActionListener {
     // Item consumption methods -------------------------------------------------------------
     // determines if the player picked up an item
     private void pickedItem() {
-        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 'f') {
-            boardTiles[thePlayer.getX()][thePlayer.getY()] = 'g';
+        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_FLOWER) {
+            boardTiles[thePlayer.getX()][thePlayer.getY()] = BOARD_GRASS;
             thePlayer.gainHP(FLOWERHEAL);
             currItem = itemState.FLOWER;
             return;
         }
 
-        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 's') {
-            boardTiles[thePlayer.getX()][thePlayer.getY()] = 'g';
+        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_SWORD) {
+            boardTiles[thePlayer.getX()][thePlayer.getY()] = BOARD_GRASS;
             thePlayer.gainATK(SWORDATK);
             currItem = itemState.SWORD;
             return;
         }
 
-        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == 'd') {
-            boardTiles[thePlayer.getX()][thePlayer.getY()] = 'g';
+        if (boardTiles[thePlayer.getX()][thePlayer.getY()] == BOARD_SHIELD) {
+            boardTiles[thePlayer.getX()][thePlayer.getY()] = BOARD_GRASS;
             thePlayer.gainDEF(SHIELDDEF);
             currItem = itemState.SHIELD;
         }
@@ -615,7 +615,7 @@ public class gameBoard extends JPanel implements ActionListener {
 
     // has the enemy make a choice
     private battleState enemyChoose() {
-        int numChoices = 3;
+        final int numChoices = 3;
         int rand = (int)(Math.random() * numChoices);
 
         if (rand == 0) {
@@ -658,13 +658,13 @@ public class gameBoard extends JPanel implements ActionListener {
                 for (int j = 0; j < BOARDWIDTH; j++) {
                     boardTiles[j][i] = sc.next().charAt(0);
 
-                    if ((boardTiles[j][i] >= '0' && boardTiles[j][i] <= '9') || boardTiles[j][i] == 'b') {
+                    if ((boardTiles[j][i] >= ENEMY_WEAK && boardTiles[j][i] <= ENEMY_STRONG) || boardTiles[j][i] == BOARD_BOSS) {
                         numEnemies++;
 
-                    } else if (boardTiles[j][i] == 'p') {
+                    } else if (boardTiles[j][i] == BOARD_PLAYER) {
                         playerXSpawn = j;
                         playerYSpawn = i;
-                        boardTiles[j][i] = 'g';
+                        boardTiles[j][i] = BOARD_GRASS;
                     }
                 }
                 sc.nextLine();      // SKIP OVER NEWLINE CHAR

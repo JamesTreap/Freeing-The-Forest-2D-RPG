@@ -9,7 +9,7 @@ This game takes the formula of rock-paper-scissors and expands it into an RPG-st
 * Initialization classes promoting code reusability (hoverButton, player, audioPlayer)
 * MVC (Model-View-Controller) design pattern
 * Custom music for various gamestates
-* Dynamic code allowing for the adjustment
+* Dynamic code allowing for the adjustment of values and assets by changing a single variable.
 
 Customizable maps - to edit the map, edit the file in 'map1.csv', using the guide below.<br>
 Guide:

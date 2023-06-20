@@ -29,7 +29,7 @@ Guide:
 * 'w' creates a water tile (instantly kills player upon touching it)
 * 'r' creates a rock tile (water tile which players are able to traverse)
 
-Note: each tile must be defined. Failing to define a tile will create blank tiles.
+Note: each tile must be defined. Failing to define a tile will create blank tiles.<br>
 Note 2: there must be at least one enemy on the map, or else the player cannot win the game.
 
 ## Installation
@@ -56,8 +56,8 @@ NOTE: Within the target folder, there are folders containing various assets. The
 This project is split into the following directories:
 
 /src -> contains source code<br>
-&emsp/main - contains the java files<br>
-&emsp/test - contains the test files Maven uses to determine build success or failure<br>
+    /main - contains the java files<br>
+    /test - contains the test files Maven uses to determine build success or failure<br>
 /pom.xml -> used by Maven to build the project<br>
 /target -> directory where executable is built and where assets are stored
 

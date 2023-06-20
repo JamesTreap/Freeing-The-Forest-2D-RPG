@@ -1,4 +1,4 @@
-## Freeing The Forst - Treap RPG Game
+# Freeing The Forest - Treap RPG Game
 ## Description
 This game takes the formula of rock-paper-scissors and expands it into an RPG-style game. Users navigate around the map, collecting powerups to aid them in enemy combat while avoiding environmental hazards. Users engage in combat with enemies, as battles become progressively more difficult with each encounter. Goal is to defeat all enemies to win.
 
@@ -55,10 +55,10 @@ NOTE: Within the target folder, there are folders containing various assets. The
 ## Project Structure
 This project is split into the following directories:
 
-/src -> contains source code
-    /main - contains the java files
-    /test - contains the test files Maven uses to determine build success or failure
-/pom.xml -> used by Maven to build the project
+/src -> contains source code<br>
+&emsp/main - contains the java files<br>
+&emsp/test - contains the test files Maven uses to determine build success or failure<br>
+/pom.xml -> used by Maven to build the project<br>
 /target -> directory where executable is built and where assets are stored
 
 ## Planned future features

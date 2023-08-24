@@ -1,7 +1,6 @@
 # Freeing The Forest - 2D RPG
 
 ## Description
-
 This game takes the formula of rock-paper-scissors and expands it into an RPG-style game. Users navigate around the map, collecting powerups to aid them in enemy combat while avoiding environmental hazards. Users engage in combat with enemies, as battles become progressively more difficult with each encounter. Goal is to defeat all enemies to win.
 
 ![Homescreen](./readme-images/mainmenu.png)
@@ -77,10 +76,10 @@ This project is split into the following directories:
 
 ## Images
 
+![Homescreen](./readme-images/mainmenu.png)
 ![World Map](./readme-images/world-map-overview.png)
 ![Battle instance - Player Attacking](./readme-images/player-attacking.png)
 ![Battle instance - Enemy Buff](./readme-images/enemy-buffing.png)
-
 ![Boss Battle](./readme-images/final-boss.png)
 ![Death Screen](./readme-images/death-by-enemy.png)
 ![Victory screen](./readme-images/victory.png)

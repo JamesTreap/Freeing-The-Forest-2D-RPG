@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>rpggamev2</groupId>
-  <artifactId>TreapRPGGame</artifactId>
+  <artifactId>FreeingTheForest</artifactId>
   <version>1.0.1</version>
 
-  <name>TreapRPGGame</name>
-  <url>http://www.example.com</url>
+  <name>FreeingTheForest</name>
+  <url>https://github.com/JamesTreap/TreapRPGGame</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

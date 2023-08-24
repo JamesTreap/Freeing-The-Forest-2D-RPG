@@ -1,4 +1,4 @@
-## Freeing The Forest - 2D RPG
+# Freeing The Forest - 2D RPG
 
 ## Description
 
@@ -15,6 +15,7 @@ This game takes the formula of rock-paper-scissors and expands it into an RPG-st
 -   MVC (Model-View-Controller) design pattern
 -   Custom music for various gamestates
 -   Dynamic code allowing for the adjustment
+
 
 Customizable maps - to edit the map, edit the file in 'map1.csv', using the guide below.<br>
 Guide:
@@ -38,7 +39,7 @@ Guide:
 -   'w' creates a water tile (instantly kills player upon touching it)
 -   'r' creates a rock tile (water tile which players are able to traverse)
 
-Note: each tile must be defined. Failing to define a tile will create blank tiles.
+Note: each tile must be defined. Failing to define a tile will create blank tiles.<br>
 Note 2: there must be at least one enemy on the map, or else the player cannot win the game.
 
 ## Installation
